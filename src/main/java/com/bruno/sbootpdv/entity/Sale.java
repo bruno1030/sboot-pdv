@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,5 +27,11 @@ public class Sale {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    // 1 venda pode ter muitos itens
+    // mappedBy eh pra eu dizer qual o nome do atributo que mapeou essa classe Sale la na classe ItemSale.
+    // FetchType.LAZY eh pq quando eu for obter uma venda eu nao quero que venha os itens juntos por padrao. Se eu quiser que venha os itens da venda, ai eu vou ter um methodo especifico, um fetch especifico pra isso. Serao 2 endpoints distintos, por tanto
+    @OneToMany(mappedBy = "sale", fetch = FetchType.LAZY)
+    private List<ItemSale> items;
 
 }

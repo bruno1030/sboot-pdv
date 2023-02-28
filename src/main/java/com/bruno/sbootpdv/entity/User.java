@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -22,5 +24,8 @@ public class User {
     private String name;
 
     private boolean isEnable;
+
+    @OneToMany(mappedBy = "user")    // 1 usuario pode ter muitas vendas
+    private List<Sale> sales;
 
 }
