@@ -6,10 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/user")
@@ -29,10 +28,21 @@ public class UserController {
     @PostMapping()
     public ResponseEntity post(@RequestBody User user){
         try {
+            user.setEnable(true);
             return new ResponseEntity<>(repository.save(user), HttpStatus.CREATED);
         }catch(Exception e){
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PutMapping
+    public ResponseEntity put(@RequestBody User user){
+        Optional<User> userToEdit = repository.findById(user.getId());
+        if(userToEdit.isPresent()){
+            user.setEnable(true);
+            return new ResponseEntity<>(repository.save(user), HttpStatus.OK);
+        }
+        return ResponseEntity.notFound().build();
     }
 
 }
