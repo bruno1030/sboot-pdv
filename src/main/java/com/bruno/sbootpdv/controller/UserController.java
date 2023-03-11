@@ -3,7 +3,6 @@ package com.bruno.sbootpdv.controller;
 import com.bruno.sbootpdv.entity.User;
 import com.bruno.sbootpdv.repository.UserRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +42,17 @@ public class UserController {
             return new ResponseEntity<>(repository.save(user), HttpStatus.OK);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable Long id){
+        Optional<User> userToDelete = repository.findById(id);
+        try{
+            repository.deleteById(id);
+            return new ResponseEntity<>("Usuario removido com sucesso", HttpStatus.OK);
+        }catch(Exception error){
+            return new ResponseEntity<>(error.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
