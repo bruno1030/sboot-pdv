@@ -49,7 +49,7 @@ public class UserController {
         Optional<User> userToDelete = repository.findById(id);
         try{
             repository.deleteById(id);
-            return new ResponseEntity<>("Usuario removido com sucesso", HttpStatus.OK);
+            return new ResponseEntity<>("User removed succesfully", HttpStatus.OK);
         }catch(Exception error){
             return new ResponseEntity<>(error.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
