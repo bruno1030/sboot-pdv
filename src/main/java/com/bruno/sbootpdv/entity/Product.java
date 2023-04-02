@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -24,7 +23,8 @@ public class Product {
     @Column(length = 100, nullable = false)
     private String description;
 
-    @Column(length = 20, precision = 20, scale = 2)     // precision eh quantos numeros eu posso digitar nesse campo, ja somando com os campos depois da virgula, scale eh a quantidade de casas decimais depois da virgula
+    @Column(length = 20, precision = 20, scale = 2)
+    // precision eh quantos numeros eu posso digitar nesse campo, ja somando com os campos depois da virgula, scale eh a quantidade de casas decimais depois da virgula
     private BigDecimal price;
 
     @Column(nullable = true)
