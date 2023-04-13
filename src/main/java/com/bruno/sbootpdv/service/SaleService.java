@@ -2,6 +2,7 @@ package com.bruno.sbootpdv.service;
 
 import com.bruno.sbootpdv.dto.ProductDTO;
 import com.bruno.sbootpdv.dto.SaleDTO;
+import com.bruno.sbootpdv.dto.SaleInfoDTO;
 import com.bruno.sbootpdv.entity.ItemSale;
 import com.bruno.sbootpdv.entity.Product;
 import com.bruno.sbootpdv.entity.Sale;
@@ -32,6 +33,11 @@ public class SaleService {
         this.productRepository = productRepository;
         this.saleRepository = saleRepository;
         this.itemSaleRepository = itemSaleRepository;
+    }
+
+    // vai pegar todas as vendas
+    public List<SaleInfoDTO> findAll(){
+
     }
 
     // essa anotacao @Transactional eh pra caso eu tenha algum problema no momento de salvar os itens da venda, e nao ficar com lixo na base, com uma venda que nao tem os itens salvos nela
