@@ -102,4 +102,8 @@ public class SaleService {
         }).collect(Collectors.toList());
     }
 
+    public SaleInfoDTO getById(Long id) {
+        Sale sale = saleRepository.findById(id).get();
+        return getSaleInfo(sale);
+    }
 }
