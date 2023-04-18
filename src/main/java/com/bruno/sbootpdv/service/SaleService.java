@@ -8,6 +8,8 @@ import com.bruno.sbootpdv.entity.ItemSale;
 import com.bruno.sbootpdv.entity.Product;
 import com.bruno.sbootpdv.entity.Sale;
 import com.bruno.sbootpdv.entity.User;
+import com.bruno.sbootpdv.exception.InvalidOperationException;
+import com.bruno.sbootpdv.exception.NoItemException;
 import com.bruno.sbootpdv.repository.ItemSaleRepository;
 import com.bruno.sbootpdv.repository.ProductRepository;
 import com.bruno.sbootpdv.repository.SaleRepository;
@@ -99,9 +101,11 @@ public class SaleService {
             itemSale.setQuantity(item.getQuantity());
 
             if(product.getQuantity() == 0){
-                throw new IllegalArgumentException();
+                throw new NoItemException("Produto sem estoque");
             }else if(product.getQuantity() < item.getQuantity()){
-                throw new IllegalArgumentException();
+                throw new InvalidOperationException(String.format("A quantidade de itens da venda (%s) " +
+                                                                    "é maior do que a quantidade " +
+                                                                    "disponivel no estoque (%s)", item.getQuantity(), product.getQuantity()));
             }
 
             int total = product.getQuantity() - item.getQuantity();

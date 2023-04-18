@@ -1,6 +1,8 @@
 package com.bruno.sbootpdv.controller;
 
 import com.bruno.sbootpdv.dto.SaleDTO;
+import com.bruno.sbootpdv.exception.InvalidOperationException;
+import com.bruno.sbootpdv.exception.NoItemException;
 import com.bruno.sbootpdv.service.SaleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,8 @@ public class SaleController {
         try {
             long id = service.save(sale);
             return new ResponseEntity<>("Venda realizada com sucesso - id: " + id, HttpStatus.CREATED);
+        } catch(NoItemException | InvalidOperationException error){
+            return new ResponseEntity<>(error.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception error) {
             return new ResponseEntity<>(error.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
