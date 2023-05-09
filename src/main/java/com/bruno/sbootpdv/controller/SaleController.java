@@ -26,7 +26,11 @@ public class SaleController {
 
     @GetMapping("{id}")
     public ResponseEntity getById(@PathVariable Long id){
-        return new ResponseEntity(service.getById(id), HttpStatus.OK);
+        try{
+            return new ResponseEntity(service.getById(id), HttpStatus.OK);
+        } catch(NoItemException | InvalidOperationException error){
+            return new ResponseEntity<>(error.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping()

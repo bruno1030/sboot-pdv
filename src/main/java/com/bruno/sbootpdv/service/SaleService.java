@@ -67,18 +67,23 @@ public class SaleService {
     @Transactional
     public long save(SaleDTO sale){
 
-        Optional<User> user = userRepository.findById(sale.getUserid());
+        Optional<User> optional = userRepository.findById(sale.getUserid());
 
-        Sale newSale = new Sale();
-        newSale.setUser(user.get());
-        newSale.setDate(LocalDate.now());
-        List<ItemSale> items = getItemSale(sale.getItems());
+        if(optional.isPresent()){
+            User user = optional.get();
+            Sale newSale = new Sale();
+            newSale.setUser(user);
+            newSale.setDate(LocalDate.now());
+            List<ItemSale> items = getItemSale(sale.getItems());
 
-        newSale = saleRepository.save(newSale);
+            newSale = saleRepository.save(newSale);
 
-        saveItemSale(items, newSale);
+            saveItemSale(items, newSale);
 
-        return newSale.getId();
+            return newSale.getId();
+        }else{
+            throw new NoItemException("Usuario nao encontrado.");
+        }
 
     }
 
@@ -90,6 +95,11 @@ public class SaleService {
     }
 
     private List<ItemSale> getItemSale(List<ProductDTO> products){
+
+        if(products.isEmpty()){
+            throw new InvalidOperationException("Nao é possivel adicionar a venda sem itens.");
+        }
+
         // O Map transforma uma colecao em outra
         // Entao o trecho abaixo eu uso em vezes de fazer um for, que seria a outra forma de passar em cada product
         // Entao o map vai armazenando todos os meus retornos de "itemSale", e quando acaba ele retorna o objeto "products", que eh nova colecao criada, de Items... isso substitui o for
@@ -118,7 +128,8 @@ public class SaleService {
     }
 
     public SaleInfoDTO getById(Long id) {
-        Sale sale = saleRepository.findById(id).get();
+        Sale sale = saleRepository.findById(id)
+                .orElseThrow(()-> new NoItemException("Venda nao encontrada"));
         return getSaleInfo(sale);
     }
 }
