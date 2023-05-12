@@ -1,6 +1,8 @@
 package com.bruno.sbootpdv.controller;
 
+import com.bruno.sbootpdv.dto.ResponseDTO;
 import com.bruno.sbootpdv.dto.SaleDTO;
+import com.bruno.sbootpdv.dto.SaleInfoDTO;
 import com.bruno.sbootpdv.exception.InvalidOperationException;
 import com.bruno.sbootpdv.exception.NoItemException;
 import com.bruno.sbootpdv.service.SaleService;
@@ -8,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/sale")
@@ -21,13 +25,16 @@ public class SaleController {
 
     @GetMapping
     public ResponseEntity getAll(){
-        return new ResponseEntity(service.findAll(), HttpStatus.OK);
+
+
+
+        return new ResponseEntity<>(new ResponseDTO<List<SaleInfoDTO>>("", service.findAll()), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
     public ResponseEntity getById(@PathVariable Long id){
         try{
-            return new ResponseEntity(service.getById(id), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseDTO<>("", service.getById(id)), HttpStatus.OK);
         } catch(NoItemException | InvalidOperationException error){
             return new ResponseEntity<>(error.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -37,11 +44,11 @@ public class SaleController {
     public ResponseEntity post(@RequestBody SaleDTO sale) {
         try {
             long id = service.save(sale);
-            return new ResponseEntity<>("Venda realizada com sucesso - id: " + id, HttpStatus.CREATED);
+            return new ResponseEntity<>(new ResponseDTO<>("Venda realizada com sucesso!", id), HttpStatus.CREATED);
         } catch(NoItemException | InvalidOperationException error){
-            return new ResponseEntity<>(error.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ResponseDTO<>(error.getMessage(), null), HttpStatus.BAD_REQUEST);
         } catch (Exception error) {
-            return new ResponseEntity<>(error.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ResponseDTO<>(error.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
