@@ -26,8 +26,6 @@ public class SaleController {
     @GetMapping
     public ResponseEntity getAll(){
 
-
-
         return new ResponseEntity<>(new ResponseDTO<List<SaleInfoDTO>>("", service.findAll()), HttpStatus.OK);
     }
 
