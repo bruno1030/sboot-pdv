@@ -25,7 +25,7 @@ public class User {
 
     private boolean isEnable;
 
-    @OneToMany(mappedBy = "user")    // 1 usuario pode ter muitas vendas
+    @OneToMany(mappedBy = "user")    // 1 usuario pode ter muitas vendas. // Aqui sao as vendas que esse user efetuou
     private List<Sale> sales;
 
 }
