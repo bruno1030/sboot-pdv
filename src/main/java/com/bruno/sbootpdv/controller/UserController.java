@@ -6,6 +6,7 @@ import com.bruno.sbootpdv.entity.User;
 import com.bruno.sbootpdv.exception.NoItemException;
 import com.bruno.sbootpdv.repository.UserRepository;
 import com.bruno.sbootpdv.service.UserService;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -43,9 +44,9 @@ public class UserController {
         try{
             return new ResponseEntity(service.update(user), HttpStatus.OK);
         }catch(NoItemException e){
-            return new ResponseEntity(new ResponseDTO<>(e.getMessage(), user), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new ResponseDTO(e.getMessage()), HttpStatus.BAD_REQUEST);
         }catch (Exception e){
-            return new ResponseEntity(new ResponseDTO<>(e.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -54,9 +55,11 @@ public class UserController {
         UserDTO userToDelete = service.findById(id);
         try{
             service.deleteById(id);
-            return new ResponseEntity<>("User removed succesfully", HttpStatus.OK);
-        }catch(Exception error){
-            return new ResponseEntity<>(error.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ResponseDTO("User removed succesfully"), HttpStatus.OK);
+        }catch(EmptyResultDataAccessException e){
+            return new ResponseEntity<>(new ResponseDTO("Nao foi possivel localizar o usuario"), HttpStatus.BAD_REQUEST);
+        }catch(Exception e){
+            return new ResponseEntity<>(new ResponseDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

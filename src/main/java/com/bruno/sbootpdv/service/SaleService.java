@@ -67,25 +67,19 @@ public class SaleService {
     // se der alguma coisa errada no meio do caminho, ele desfaz tudo que foi feito, faz um rollback
     @Transactional
     public long save(SaleDTO sale){
+        User user = userRepository.findById(sale.getUserid())
+                .orElseThrow(() -> new NoItemException("Usuario nao encontrado"));
 
-        Optional<User> optional = userRepository.findById(sale.getUserid());
+        Sale newSale = new Sale();
+        newSale.setUser(user);
+        newSale.setDate(LocalDate.now());
+        List<ItemSale> items = getItemSale(sale.getItems());
 
-        if(optional.isPresent()){
-            User user = optional.get();
-            Sale newSale = new Sale();
-            newSale.setUser(user);
-            newSale.setDate(LocalDate.now());
-            List<ItemSale> items = getItemSale(sale.getItems());
+        newSale = saleRepository.save(newSale);
 
-            newSale = saleRepository.save(newSale);
+        saveItemSale(items, newSale);
 
-            saveItemSale(items, newSale);
-
-            return newSale.getId();
-        }else{
-            throw new NoItemException("Usuario nao encontrado.");
-        }
-
+        return newSale.getId();
     }
 
     private void saveItemSale(List<ItemSale> items, Sale newSale){
@@ -105,7 +99,8 @@ public class SaleService {
         // Entao o trecho abaixo eu uso em vezes de fazer um for, que seria a outra forma de passar em cada product
         // Entao o map vai armazenando todos os meus retornos de "itemSale", e quando acaba ele retorna o objeto "products", que eh nova colecao criada, de Items... isso substitui o for
         return products.stream().map(item -> {
-            Product product = productRepository.getReferenceById(item.getProductid());
+            Product product = productRepository.findById(item.getProductid())
+                    .orElseThrow(() -> new NoItemException("Item da venda nao encontrado"));
 
             ItemSale itemSale = new ItemSale();
             itemSale.setProduct(product);

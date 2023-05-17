@@ -1,5 +1,6 @@
 package com.bruno.sbootpdv.controller;
 
+import com.bruno.sbootpdv.dto.ResponseDTO;
 import com.bruno.sbootpdv.entity.Product;
 import com.bruno.sbootpdv.repository.ProductRepository;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,7 @@ public class ProductController {
         try{
             return new ResponseEntity<>(repository.save(product), HttpStatus.CREATED);
         }catch(Exception error){
-            return new ResponseEntity<>(error.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ResponseDTO(error.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -36,7 +37,7 @@ public class ProductController {
         try {
             return new ResponseEntity<>(repository.save(product), HttpStatus.OK);
         }catch(Exception error){
-            return new ResponseEntity<>(error.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ResponseDTO(error.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -46,7 +47,7 @@ public class ProductController {
             repository.deleteById(id);
             return new ResponseEntity<>("Product removed succesfully", HttpStatus.OK);
         }catch (Exception error){
-            return new ResponseEntity<>(error.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ResponseDTO(error.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

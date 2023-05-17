@@ -26,15 +26,15 @@ public class SaleController {
     @GetMapping
     public ResponseEntity getAll(){
 
-        return new ResponseEntity<>(new ResponseDTO<List<SaleInfoDTO>>("", service.findAll()), HttpStatus.OK);
+        return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
     public ResponseEntity getById(@PathVariable Long id){
         try{
-            return new ResponseEntity<>(new ResponseDTO<>("", service.getById(id)), HttpStatus.OK);
+            return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
         } catch(NoItemException | InvalidOperationException error){
-            return new ResponseEntity<>(error.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ResponseDTO(error.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -42,11 +42,11 @@ public class SaleController {
     public ResponseEntity post(@RequestBody SaleDTO sale) {
         try {
             long id = service.save(sale);
-            return new ResponseEntity<>(new ResponseDTO<>("Venda realizada com sucesso!", id), HttpStatus.CREATED);
+            return new ResponseEntity<>(new ResponseDTO("Venda realizada com sucesso!"), HttpStatus.CREATED);
         } catch(NoItemException | InvalidOperationException error){
-            return new ResponseEntity<>(new ResponseDTO<>(error.getMessage(), null), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ResponseDTO(error.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (Exception error) {
-            return new ResponseEntity<>(new ResponseDTO<>(error.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ResponseDTO(error.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
