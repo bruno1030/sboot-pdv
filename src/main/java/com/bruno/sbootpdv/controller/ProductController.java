@@ -14,39 +14,39 @@ public class ProductController {
 
     private ProductRepository repository;
 
-    public ProductController(ProductRepository repository){
+    public ProductController(ProductRepository repository) {
         this.repository = repository;
     }
 
     @GetMapping()
-    public ResponseEntity getAll(){
+    public ResponseEntity getAll() {
         return new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity post(@RequestBody Product product){
-        try{
+    public ResponseEntity post(@RequestBody Product product) {
+        try {
             return new ResponseEntity<>(repository.save(product), HttpStatus.CREATED);
-        }catch(Exception error){
+        } catch (Exception error) {
             return new ResponseEntity<>(new ResponseDTO(error.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping()
-    public ResponseEntity put(@RequestBody Product product){
+    public ResponseEntity put(@RequestBody Product product) {
         try {
             return new ResponseEntity<>(repository.save(product), HttpStatus.OK);
-        }catch(Exception error){
+        } catch (Exception error) {
             return new ResponseEntity<>(new ResponseDTO(error.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Long id){
-        try{
+    public ResponseEntity delete(@PathVariable Long id) {
+        try {
             repository.deleteById(id);
             return new ResponseEntity<>("Product removed succesfully", HttpStatus.OK);
-        }catch (Exception error){
+        } catch (Exception error) {
             return new ResponseEntity<>(new ResponseDTO(error.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
