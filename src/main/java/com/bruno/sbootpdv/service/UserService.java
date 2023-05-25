@@ -27,9 +27,12 @@ public class UserService {
         ).collect(Collectors.toList());     //aqui nessa linha depois do ponto (onde esta collect) eh onde eu digo o que quero retornar
     }
 
-    public UserDTO save(User user){
-        repository.save(user);    // fazendo isso, o user ja volta do banco de dados com o id setado nele
-        return new UserDTO(user.getId(), user.getName(), user.isEnable());
+    public UserDTO save(UserDTO userDTO){
+        User userToSave = new User();
+        userToSave.setEnable(userDTO.isEnabled());
+        userToSave.setName(userDTO.getName());
+        repository.save(userToSave);    // fazendo isso, o user ja volta do banco de dados com o id setado nele
+        return new UserDTO(userToSave.getId(), userToSave.getName(), userToSave.isEnable());
     }
 
     public UserDTO findById(long id){
@@ -42,15 +45,20 @@ public class UserService {
         return new UserDTO(user.getId(), user.getName(), user.isEnable());
     }
 
-    public UserDTO update(User user){
-        Optional<User> userToEdit = repository.findById(user.getId());
+    public UserDTO update(UserDTO userDTO){
+        User userToUpdate = new User();
+        userToUpdate.setEnable(userDTO.isEnabled());
+        userToUpdate.setName(userDTO.getName());
+        userToUpdate.setId(userDTO.getId());
+
+        Optional<User> userToEdit = repository.findById(userToUpdate.getId());
 
         if(!userToEdit.isPresent()){
             throw new NoItemException("Usuario nao encontrado para poder editar");
         }
 
-        repository.save(user);
-        return new UserDTO(user.getId(), user.getName(), user.isEnable());
+        repository.save(userToUpdate);
+        return new UserDTO(userDTO.getId(), userDTO.getName(), userDTO.isEnabled());
     }
 
     public void deleteById(long id){

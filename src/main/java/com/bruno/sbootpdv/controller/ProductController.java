@@ -3,6 +3,7 @@ package com.bruno.sbootpdv.controller;
 import com.bruno.sbootpdv.dto.ResponseDTO;
 import com.bruno.sbootpdv.entity.Product;
 import com.bruno.sbootpdv.repository.ProductRepository;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,7 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ResponseEntity post(@RequestBody Product product) {
+    public ResponseEntity post(@Valid @RequestBody Product product) {
         try {
             return new ResponseEntity<>(repository.save(product), HttpStatus.CREATED);
         } catch (Exception error) {
@@ -33,7 +34,7 @@ public class ProductController {
     }
 
     @PutMapping()
-    public ResponseEntity put(@RequestBody Product product) {
+    public ResponseEntity put(@Valid @RequestBody Product product) {
         try {
             return new ResponseEntity<>(repository.save(product), HttpStatus.OK);
         } catch (Exception error) {

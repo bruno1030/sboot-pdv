@@ -3,6 +3,7 @@ package com.bruno.sbootpdv.controller;
 import com.bruno.sbootpdv.dto.ResponseDTO;
 import com.bruno.sbootpdv.dto.SaleDTO;
 import com.bruno.sbootpdv.service.SaleService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -34,7 +35,7 @@ public class SaleController {
     }
 
     @PostMapping()
-    public ResponseEntity post(@RequestBody SaleDTO sale) {
+    public ResponseEntity post(@Valid @RequestBody SaleDTO sale) {
         try {
             service.save(sale);
             return new ResponseEntity<>(new ResponseDTO("Venda realizada com sucesso!"), HttpStatus.CREATED);
