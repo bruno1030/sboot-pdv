@@ -1,6 +1,6 @@
 package com.bruno.sbootpdv.service;
 
-import com.bruno.sbootpdv.dto.ProductDTO;
+import com.bruno.sbootpdv.dto.ProductSaleDTO;
 import com.bruno.sbootpdv.dto.ProductInfoDTO;
 import com.bruno.sbootpdv.dto.SaleDTO;
 import com.bruno.sbootpdv.dto.SaleInfoDTO;
@@ -22,7 +22,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -94,7 +93,7 @@ public class SaleService {
         }
     }
 
-    private List<ItemSale> getItemSale(List<ProductDTO> products){
+    private List<ItemSale> getItemSale(List<ProductSaleDTO> products){
 
         if(products.isEmpty()){
             throw new InvalidOperationException("Nao é possivel adicionar a venda sem itens.");

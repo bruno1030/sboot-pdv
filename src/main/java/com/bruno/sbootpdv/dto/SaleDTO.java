@@ -12,6 +12,6 @@ import java.util.List;
 public class SaleDTO {
 
     private long userid;
-    private List<ProductDTO> items;
+    private List<ProductSaleDTO> items;
 
 }

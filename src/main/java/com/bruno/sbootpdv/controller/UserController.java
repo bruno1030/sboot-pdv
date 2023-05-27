@@ -2,7 +2,6 @@ package com.bruno.sbootpdv.controller;
 
 import com.bruno.sbootpdv.dto.ResponseDTO;
 import com.bruno.sbootpdv.dto.UserDTO;
-import com.bruno.sbootpdv.entity.User;
 import com.bruno.sbootpdv.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/user")
-public class  UserController {
+public class UserController {
 
     private UserService service;
 
@@ -29,7 +28,7 @@ public class  UserController {
     @PostMapping()
     public ResponseEntity post(@Valid @RequestBody UserDTO user) {
         try {
-            user.setEnable(true);
+            user.setEnabled(true);
             return new ResponseEntity<>(service.save(user), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
