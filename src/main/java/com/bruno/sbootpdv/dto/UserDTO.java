@@ -12,5 +12,7 @@ public class UserDTO {
     private Long id;
     private String name;
     private boolean isEnabled;
+    private String username;
+    private String password;
 
 }

@@ -4,6 +4,7 @@ import com.bruno.sbootpdv.dto.UserDTO;
 import com.bruno.sbootpdv.entity.User;
 import com.bruno.sbootpdv.exception.NoItemException;
 import com.bruno.sbootpdv.repository.UserRepository;
+import com.bruno.sbootpdv.security.SecurityConfig;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +26,15 @@ public class UserService {
 
     public List<UserDTO> getAll() {
         return repository.findAll().stream().map(user ->
-                new UserDTO(user.getId(), user.getName(), user.isEnable())
+                new UserDTO(user.getId(), user.getName(), user.isEnable(),user.getUsername(), user.getPassword())
         ).collect(Collectors.toList());     //aqui nessa linha depois do ponto (onde esta collect) eh onde eu digo o que quero retornar
     }
 
     public UserDTO save(UserDTO userDTO) {
+        userDTO.setPassword(SecurityConfig.passwordEncoder().encode(userDTO.getPassword()));
         User userToSave = mapper.map(userDTO, User.class);
         repository.save(userToSave);    // passando o userToSave para o repository, quando ele voltar do banco de dados, ele ja volta com o id setado nele pra eu utilizar na linha abaixo
-        return new UserDTO(userToSave.getId(), userToSave.getName(), userToSave.isEnable());
+        return new UserDTO(userToSave.getId(), userToSave.getName(), userToSave.isEnable(), userToSave.getUsername(), userToSave.getPassword());
     }
 
     public UserDTO findById(long id) {
@@ -42,10 +44,11 @@ public class UserService {
             throw new NoItemException("Usuario nao encontrado");
         }
         User user = optional.get();
-        return new UserDTO(user.getId(), user.getName(), user.isEnable());
+        return new UserDTO(user.getId(), user.getName(), user.isEnable(), user.getUsername(), user.getPassword());
     }
 
     public UserDTO update(UserDTO userDTO) {
+        userDTO.setPassword(SecurityConfig.passwordEncoder().encode(userDTO.getPassword()));
         User userToUpdate = mapper.map(userDTO, User.class);
 
         Optional<User> userToEdit = repository.findById(userToUpdate.getId());
@@ -55,7 +58,7 @@ public class UserService {
         }
 
         repository.save(userToUpdate);
-        return new UserDTO(userDTO.getId(), userDTO.getName(), userDTO.isEnabled());
+        return new UserDTO(userDTO.getId(), userDTO.getName(), userDTO.isEnabled(), userDTO.getUsername(), userDTO.getPassword());
     }
 
     public void deleteById(long id) {

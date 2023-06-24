@@ -21,6 +21,7 @@ import org.springframework.util.CollectionUtils;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,7 +46,21 @@ public class SaleService {
         return saleRepository.findAll().stream().map(sale -> getSaleInfo(sale)).collect(Collectors.toList());
     }
 
+    static boolean exists(int[] ints, int k){
+
+        for (int i = 0; i < ints.length; i++) {
+            if(ints[i] == k){
+                return true;
+            }
+        }
+        return false;
+
+    }
+
     private SaleInfoDTO getSaleInfo(Sale sale){
+
+
+
 
         var productsInfo = getProductInfo(sale.getItems());
         BigDecimal total = getTotal(productsInfo);

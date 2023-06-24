@@ -25,6 +25,14 @@ public class User {
     @NotBlank(message="Campo nome eh obrigatorio")
     private String name;
 
+    @Column(length = 30, nullable = false)
+    @NotBlank(message = "O campo username eh obrigatorio")
+    private String username;
+
+    @Column(length = 30, nullable = false)
+    @NotBlank(message = "O campo password eh obrigatorio")
+    private String password;
+
     private boolean isEnable;
 
     @OneToMany(mappedBy = "user")    // 1 usuario pode ter muitas vendas. // Aqui sao as vendas que esse user efetuou
