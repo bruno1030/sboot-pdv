@@ -26,7 +26,7 @@ public class UserService {
 
     public List<UserDTO> getAll() {
         return repository.findAll().stream().map(user ->
-                new UserDTO(user.getId(), user.getName(), user.isEnable(),user.getUsername(), user.getPassword())
+                new UserDTO(user.getId(), user.getName(), user.isEnable(),user.getUsername())
         ).collect(Collectors.toList());     //aqui nessa linha depois do ponto (onde esta collect) eh onde eu digo o que quero retornar
     }
 
@@ -34,7 +34,7 @@ public class UserService {
         userDTO.setPassword(SecurityConfig.passwordEncoder().encode(userDTO.getPassword()));
         User userToSave = mapper.map(userDTO, User.class);
         repository.save(userToSave);    // passando o userToSave para o repository, quando ele voltar do banco de dados, ele ja volta com o id setado nele pra eu utilizar na linha abaixo
-        return new UserDTO(userToSave.getId(), userToSave.getName(), userToSave.isEnable(), userToSave.getUsername(), userToSave.getPassword());
+        return new UserDTO(userToSave.getId(), userToSave.getName(), userToSave.isEnable(), userToSave.getUsername());
     }
 
     public UserDTO findById(long id) {
@@ -44,7 +44,7 @@ public class UserService {
             throw new NoItemException("Usuario nao encontrado");
         }
         User user = optional.get();
-        return new UserDTO(user.getId(), user.getName(), user.isEnable(), user.getUsername(), user.getPassword());
+        return new UserDTO(user.getId(), user.getName(), user.isEnable(), user.getUsername());
     }
 
     public UserDTO update(UserDTO userDTO) {

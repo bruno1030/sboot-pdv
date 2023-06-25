@@ -1,12 +1,12 @@
 package com.bruno.sbootpdv.entity;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Getter
@@ -25,11 +25,11 @@ public class User {
     @NotBlank(message="Campo nome eh obrigatorio")
     private String name;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 30, nullable = false, columnDefinition="text")
     @NotBlank(message = "O campo username eh obrigatorio")
     private String username;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 70, nullable = false, columnDefinition="text")
     @NotBlank(message = "O campo password eh obrigatorio")
     private String password;
 

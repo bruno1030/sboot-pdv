@@ -4,12 +4,13 @@ import com.bruno.sbootpdv.dto.ProductDTO;
 import com.bruno.sbootpdv.dto.ResponseDTO;
 import com.bruno.sbootpdv.entity.Product;
 import com.bruno.sbootpdv.repository.ProductRepository;
-import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/product")

@@ -9,6 +9,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserDTO {
 
+    public UserDTO(Long id, String name, boolean isEnabled, String username){
+        this.id = id;
+        this.name = name;
+        this.isEnabled = isEnabled;
+        this.username = username;
+    }
+
     private Long id;
     private String name;
     private boolean isEnabled;

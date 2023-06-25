@@ -3,11 +3,12 @@ package com.bruno.sbootpdv.controller;
 import com.bruno.sbootpdv.dto.ResponseDTO;
 import com.bruno.sbootpdv.dto.SaleDTO;
 import com.bruno.sbootpdv.service.SaleService;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/sale")
