@@ -2,6 +2,7 @@ package com.bruno.sbootpdv.controller;
 
 import com.bruno.sbootpdv.dto.ResponseDTO;
 import com.bruno.sbootpdv.dto.UserDTO;
+import com.bruno.sbootpdv.dto.UserResponseDTO;
 import com.bruno.sbootpdv.service.UserService;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -47,7 +48,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
-        UserDTO userToDelete = service.findById(id);
+        UserResponseDTO userToDelete = service.findById(id);
         try {
             service.deleteById(id);
             return new ResponseEntity<>(new ResponseDTO("User removed succesfully"), HttpStatus.OK);
