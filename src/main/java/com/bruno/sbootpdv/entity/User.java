@@ -25,7 +25,7 @@ public class User {
     @NotBlank(message="The field name is required")
     private String name;
 
-    @Column(length = 30, nullable = false, columnDefinition="text")
+    @Column(length = 30, nullable = false, unique = true)
     @NotBlank(message = "The field username is required")
     private String username;
 
