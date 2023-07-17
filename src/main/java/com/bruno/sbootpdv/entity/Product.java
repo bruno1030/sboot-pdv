@@ -27,8 +27,9 @@ public class Product {
     @NotBlank(message="O campo descricao eh obrigatorio")
     private String description;
 
+    // "Precision" is how many numbers I can type in this field, considering the numbers after comma
+    // "Scale" is de quantity of decimal places after comma
     @Column(length = 20, precision = 20, scale = 2)
-    // precision eh quantos numeros eu posso digitar nesse campo, ja somando com os campos depois da virgula, scale eh a quantidade de casas decimais depois da virgula
     @NotNull(message="O campo price eh obrigatorio")
     private BigDecimal price;
 
